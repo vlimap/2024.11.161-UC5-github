@@ -2,8 +2,7 @@ import { DataTypes } from "sequelize";
 import sequelize from "../../../config/database.js";
 
 /**
- * Modelo de Produto para uma barbearia.
- * Pode representar serviços (ex: corte, barba) ou produtos físicos (ex: pomada, shampoo).
+ * Modelo de Produto ou Serviço para barbearia.
  */
 const ProdutoModel = sequelize.define(
   "Produto",
@@ -19,7 +18,7 @@ const ProdutoModel = sequelize.define(
       validate: {
         len: {
           args: [2, 100],
-          msg: "O nome do serviço/produto deve ter entre 2 e 100 caracteres.",
+          msg: "O nome deve ter entre 2 e 100 caracteres.",
         },
         notEmpty: {
           msg: "O campo nome é obrigatório.",
@@ -30,20 +29,36 @@ const ProdutoModel = sequelize.define(
         },
       },
     },
+    marca: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        len: {
+          args: [2, 100],
+          msg: "A marca deve ter entre 2 e 100 caracteres.",
+        },
+      },
+    },
     preco: {
-      type: DataTypes.DECIMAL(5, 2),
+      type: DataTypes.DECIMAL(6, 2),
       allowNull: false,
       validate: {
         isDecimal: {
-          msg: "O preço deve estar no formato decimal. Exemplo: 39.90",
+          msg: "O preço deve estar no formato decimal (ex: 39.90).",
         },
-        isNumeric: {
-          msg: "O preço deve ser um número.",
+        min: {
+          args: [0.01],
+          msg: "O preço deve ser maior que zero.",
         },
-        isPositivo(value) {
-          if (value <= 0) {
-            throw new Error("O preço deve ser maior que zero.");
-          }
+      },
+    },
+    quantidade_estoque: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      validate: {
+        min: {
+          args: [0],
+          msg: "A quantidade em estoque não pode ser negativa.",
         },
       },
     },
@@ -52,8 +67,18 @@ const ProdutoModel = sequelize.define(
       allowNull: false,
       validate: {
         len: {
-          args: [20, 50],
-          msg: "A descrição do serviço/produto deve ter entre 20 e 50 caracteres.",
+          args: [20, 255],
+          msg: "A descrição deve ter entre 20 e 255 caracteres.",
+        },
+      },
+    },
+    tipo: {
+      type: DataTypes.ENUM("produto", "serviço"),
+      allowNull: false,
+      validate: {
+        isIn: {
+          args: [["produto", "serviço"]],
+          msg: "O tipo deve ser 'produto' ou 'serviço'.",
         },
       },
     },

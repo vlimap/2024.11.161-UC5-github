@@ -3,16 +3,16 @@ import ProdutoController from "../controllers/produto.controller.js";
 
 const router = express.Router();
 
-// Listar todos os serviços/produtos da barbearia
+// Listar todos os produtos/serviços (com filtro opcional ?tipo=produto ou ?tipo=serviço)
 router.get("/produtos", ProdutoController.listarTodos);
 
 // Buscar por ID
 router.get("/produtos/:id", ProdutoController.listarPorId);
 
-// Cadastrar serviço/produto
+// Cadastrar produto/serviço
 router.post("/produto/cadastrar", ProdutoController.cadastrar);
 
-// Atualizar serviço/produto
+// Atualizar produto/serviço
 router.patch("/produto/atualizar/:id", ProdutoController.atualizar);
 
 // Deletar por ID
