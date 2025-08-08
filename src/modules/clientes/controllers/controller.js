@@ -1,4 +1,4 @@
-import ClienteModel from "../models/mordel";
+import ClienteModel from "../models/mordel.js";
 
 class ClienteController {
     static async criar(req, res) {
