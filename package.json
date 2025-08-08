@@ -7,12 +7,17 @@
     "start": "node src/index.js",
     "test": "echo \"No tests yet\""
   },
-  "keywords": ["barbearia", "express", "mvc"],
+  "keywords": [
+    "barbearia",
+    "express",
+    "mvc"
+  ],
   "author": "Seu Nome",
+  "type": "module",
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "express": "^4.18.2",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "express": "^4.21.2"
   }
 }
