@@ -14,26 +14,37 @@ const Pagamento = sequelize.define('Pagamento', { // Define o modelo Pagamento
 
     tipo_pagamento: { // Tipo de pagamento 
         type: DataTypes.STRING, 
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isIn: [['cartao', 'dinheiro', 'pix']] // Valida se o tipo de pagamento é um dos valores permitidos
+        }
     },
     // Valor do pagamento com duas casas decimais
     valor: {
         type: DataTypes.DECIMAL(10, 2),
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isDecimal: true // Valida se o valor é um número decimal
+        }
     },
     // Status do pagamento (pendente, pago, cancelado)
     status: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isIn: [['pendente', 'pago', 'cancelado']] // Valida se o status é um dos valores permitidos
+        }
     },
     data_pagamento: {
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: false,
+        defaultValue: DataTypes.NOW // Define a data do pagamento como a data atual por padrão
     }
 }, {
     // Opções do modelo
     tableName: 'pagamentos',
-    timestamps: false
+    timestamps: false,
+   
 });
 
 module.exports = Pagamento;
