@@ -12,10 +12,20 @@ const AgendaModel = sequelize.define(
         data:{
             type: DataTypes.DATEONLY,
             allowNull: false,
+            validate:{
+                isDate: true,
+                isAfter: new Date().toISOString()
+            }
         },
         hora:{
             type: DataTypes.TIME,
             allowNull: false,
+            validate:{
+                isBetween: {
+                    args: ['17:30', '03:00'],
+                    msg: "A hora agendada deve ser no período de funcionamento, entre 17:30 e 03:00."
+                }
+            }
         },
         cliente_id:{
             type: DataTypes.UUID,
@@ -43,7 +53,13 @@ const AgendaModel = sequelize.define(
         },
         status:{
             type: DataTypes.ENUM('agendado', 'confirmado', 'cancelado'),
-            allowNull: false
+            allowNull: false,
+            validate:{
+                isIn: {
+                    args: [['agendado', 'confirmado', 'cancelado']],
+                    msg: "O status deve ser 'agendado', 'confirmado' ou 'cancelado'."
+                }
+            }
         }
     },
     {
