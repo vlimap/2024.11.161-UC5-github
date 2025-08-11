@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Sistema de gestão de barbearia (MVC)",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "start": "node src/index.js",
     "test": "echo \"No tests yet\""
@@ -13,9 +14,10 @@
     "mvc"
   ],
   "author": "Seu Nome",
+  "type": "module",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
-    "dotenv": "^16.0.3",
-    "express": "^4.21.2"
+
   }
 }
