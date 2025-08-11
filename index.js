@@ -1,6 +1,6 @@
 // Arquivo principal do sistema de barbearia
-import dotenv from 'dotenv';
-import express from 'express';
+import dotenv from "dotenv";
+import express from "express";
 
 dotenv.config();
 const app = express();
@@ -17,7 +17,7 @@ app.use(express.json());
 // import vendasRoutes from './src/modules/vendas/routes.js';
 // import pagamentosRoutes from './src/modules/pagamentos/routes.js';
 // import estoqueRoutes from './src/modules/estoque/routes.js';
-import relatoriosRoutes from './src/modules/relatorios/routes/relatorio.route.js'
+
 // import autenticacaoRoutes from './src/modules/autenticacao/routes.js';
 
 // app.use('/agenda', agendaRoutes);
