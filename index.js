@@ -11,12 +11,13 @@ app.use(express.json());
 // Rotas dos módulos
 // import agendaRoutes from './src/modules/agenda/routes.js';
 // import clientesRoutes from './src/modules/clientes/routes.js';
-// import colaboradoresRoutes from './src/modules/colaboradores/routes.js';
+
 // import servicosRoutes from './src/modules/servicos/routes.js';
 // import produtosRoutes from './src/modules/produtos/routes.js';
 // import vendasRoutes from './src/modules/vendas/routes.js';
 // import pagamentosRoutes from './src/modules/pagamentos/routes.js';
 // import estoqueRoutes from './src/modules/estoque/routes.js';
+
 
 // import autenticacaoRoutes from './src/modules/autenticacao/routes.js';
 
