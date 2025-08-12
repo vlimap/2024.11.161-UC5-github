@@ -1,0 +1,18 @@
+name: Restrict Main Branch
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  block-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if trying to push or PR to main
+        run: |
+          echo "Pushes e Pull Requests para a branch 'main' são proibidos. Use a branch 'develop'."
+          exit 1
