@@ -59,7 +59,7 @@ const ColaboradorModel = sequelize.define(
       allowNull: false,
       validate: {
         isUrl: {
-          msg: "A foto de perfil deve ser uma URL válida!"
+          msg: "Insira uma data de admissão válida!"
         }
       }
     },

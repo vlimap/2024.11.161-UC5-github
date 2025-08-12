@@ -1,97 +1,97 @@
 import bcrypt from "bcryptjs";
-import UsuarioModel from "../models/perfil.model.js";
+import ColaboradorModel from "../models/colaborador.models";
 
 class ColaboradorController {
-  // Cadastrar usuário
+  // Cadastrar do colaborador
   static async cadastrar(req, res) {
     try {
-      const { nome, especialidade, telefone, email, data_admissao, status } = req.body;
-      if (!nome || !especialidade || !telefone|| !email || !data_admissao) {
-        return res.status(400).json({ mensagem: "Nome, especialidade, telefone,e-mail e senha são obrigatórios!" });
+      const { nome, especialidade, telefone, email, data_admissao, status, senha } = req.body;
+      if (!nome || !especialidade || !telefone || !email || !data_admissao || !senha) {
+        return res.status(400).json({ mensagem: "Nome, especialidade, telefone, e-mail, data de admissão e senha são obrigatórios!" });
       }
-      const salt = await bcrypt.genSaltSync(10);
-      const hash = await bcrypt.hash(senha, salt)
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(senha, salt);
 
-      const usuario = await UsuarioModel.create({ nome, email, senha:hash, foto_perfil });
-      res.status(201).json({ mensagem: "Usuário criado com sucesso!", usuario });
+      const colaborador = await ColaboradorModel.create({ nome, especialidade, telefone, email, data_admissao, status, senha: hash });
+      res.status(201).json({ mensagem: "Colaborador criado com sucesso!", colaborador });
     } catch (error) {
       res.status(500).json({ mensagem: "Erro interno do servidor.", erro: error.message });
     }
   }
 
-  // Listar todos os usuários
+  // Listar todos os colaboradores
   static async listarTodos(req, res) {
     try {
-      const usuarios = await UsuarioModel.findAll();
-      if (!usuarios || usuarios.length === 0) {
+      const colaboradores = await ColaboradorModel.findAll();
+      if (!colaboradores || colaboradores.length === 0) {
         return res.status(200).json({ mensagem: "Banco de dados vazio!" });
       }
-      res.status(200).json(usuarios);
+      res.status(200).json(colaboradores);
     } catch (error) {
       res.status(500).json({ mensagem: "Erro interno do servidor.", erro: error.message });
     }
   }
 
-  // Listar usuário por ID
+  // Listar colaborador por ID
   static async listarPorId(req, res) {
     try {
       const { id } = req.params;
-      const usuario = await UsuarioModel.findByPk(id);
-      if (!usuario) {
-        return res.status(404).json({ mensagem: "Usuário não encontrado!" });
+      const colaborador = await ColaboradorModel.findByPk(id);
+      if (!colaborador) {
+        return res.status(404).json({ mensagem: "Colaborador não encontrado!" });
       }
-      res.status(200).json(usuario);
+      res.status(200).json(colaborador);
     } catch (error) {
       res.status(500).json({ mensagem: "Erro interno do servidor.", erro: error.message });
     }
   }
 
-  // Atualizar usuário por ID
+  // Atualizar colaborador por ID
   static async atualizar(req, res) {
     try {
-      const { nome, email, senha, foto_perfil } = req.body;
+      const { nome, especialidade, telefone, email, data_admissao, status } = req.body;
       const { id } = req.params;
-      const resultado = await UsuarioModel.update(
-        { nome, email, senha, foto_perfil },
+      const resultado = await ColaboradorModel.update(
+        { nome, especialidade, telefone, email, data_admissao, status },
         { where: { id } }
       );
       if (!resultado || resultado[0] === 0) {
-        return res.status(404).json({ mensagem: "Usuário não encontrado!" });
+        return res.status(404).json({ mensagem: "Colaborador não encontrado!" });
       }
-      res.status(200).json({ mensagem: "Usuário atualizado com sucesso!" });
+      res.status(200).json({ mensagem: "Colaborador atualizado com sucesso!" });
     } catch (error) {
       res.status(500).json({ mensagem: "Erro interno do servidor.", erro: error.message });
     }
   }
 
-  // Deletar usuário por ID
+  // Deletar colaborador por ID
   static async deletarPorId(req, res) {
     try {
       const { id } = req.params;
-      const resultado = await UsuarioModel.destroy({ where: { id } });
+      const resultado = await ColaboradorModel.destroy({ where: { id } });
       if (!resultado) {
-        return res.status(404).json({ mensagem: "Usuário não encontrado!" });
+        return res.status(404).json({ mensagem: "Colaborador não encontrado!" });
       }
-      res.status(200).json({ mensagem: "Usuário excluído com sucesso!" });
+      res.status(200).json({ mensagem: "Colaborador excluído com sucesso!" });
     } catch (error) {
       res.status(500).json({ mensagem: "Erro interno do servidor.", erro: error.message });
     }
   }
 
-  // Deletar todos os usuários
+  // Deletar todos os colaboradores
   static async deletarTodos(req, res) {
     try {
-      await UsuarioModel.destroy({ truncate: true });
-      res.status(200).json({ mensagem: "Todos os usuários foram deletados!" });
+      await ColaboradorModel.destroy({ truncate: true });
+      res.status(200).json({ mensagem: "Todos os colaboradores foram deletados!" });
     } catch (error) {
       res.status(500).json({ mensagem: "Erro interno do servidor.", erro: error.message });
     }
   }
 
-  // Contar total de usuários
-  static async totalUsuarios(req, res) {
+  // Contar total de  colaboradores
+  static async totalColaboradores(req, res) {
     try {
-      const total = await UsuarioModel.count();
+      const total = await ColaboradorModel.count();
       res.status(200).json({ total });
     } catch (error) {
       res.status(500).json({ mensagem: "Erro interno do servidor.", erro: error.message });
@@ -99,4 +99,4 @@ class ColaboradorController {
   }
 }
 
-export default UsuarioController;
+export default ColaboradorController;
