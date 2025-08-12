@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../../../config/database.js";
+import sequelize from "../../../../config/database.js";
 
 const EstoqueModel = sequelize.define(
   "Estoque",
@@ -69,6 +69,11 @@ const EstoqueModel = sequelize.define(
             isAfter: {
                 args: new Date().toISOString(),
                 msg: "A data de saída não pode ser anterior à data atual!"
+            },
+            isMaiorQueDataEntrada(value){
+                if (parseInt(value) % 2 !== 0) {
+                throw new Error('Only even values are allowed!');
+              }
             }
         },
     }

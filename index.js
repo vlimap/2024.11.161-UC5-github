@@ -16,8 +16,6 @@ app.use(express.json());
 // import produtosRoutes from './src/modules/produtos/routes.js';
 // import vendasRoutes from './src/modules/vendas/routes.js';
 // import pagamentosRoutes from './src/modules/pagamentos/routes.js';
-// import estoqueRoutes from './src/modules/estoque/routes.js';
-
 
 // import autenticacaoRoutes from './src/modules/autenticacao/routes.js';
 
@@ -28,8 +26,7 @@ app.use(express.json());
 // app.use('/produtos', produtosRoutes);
 // app.use('/vendas', vendasRoutes);
 // app.use('/pagamentos', pagamentosRoutes);
-// app.use('/estoque', estoqueRoutes);
-app.use(relatoriosRoutes);
+
 // app.use('/autenticacao', autenticacaoRoutes);
 
 const PORT = process.env.PORT;
