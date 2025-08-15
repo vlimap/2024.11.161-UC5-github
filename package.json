@@ -1,22 +1,29 @@
 {
-  "name": "barbearia-system",
+  "name": "2024.11.161-uc5-github",
   "version": "1.0.0",
-  "description": "Sistema de gestão de barbearia (MVC)",
-  "main": "src/index.js",
-  "type": "module",
-  "scripts": {
-    "start": "node index.js",
-    "test": "echo \"No tests yet\""
+  "description": "O sistema está organizado em 10 módulos/domínios principais, cada um representando um aspecto do negócio de barbearia. Utilizaremos o padrão MVC (Model-View-Controller) para garantir separação de responsabilidades e escalabilidade.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
   },
-  "keywords": [
-    "barbearia",
-    "express",
-    "mvc"
-  ],
-  "author": "Seu Nome",
-  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vlimap/2024.11.161-UC5-github.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/vlimap/2024.11.161-UC5-github/issues"
+  },
+  "homepage": "https://github.com/vlimap/2024.11.161-UC5-github#readme",
   "dependencies": {
-
+    "bcrypt": "^6.0.0",
+    "express": "^5.1.0",
     "sequelize": "^6.37.7"
   }
 }
