@@ -1,7 +1,7 @@
-import EstoqueModel from "../models/estoque.model";
+import EstoqueModel from "../models/estoque.model.js";
 
 
-class Estoque {
+class EstoqueController {
   // Criar estoque
   static async criar(req, res) {
     try {
@@ -16,7 +16,7 @@ class Estoque {
       }
       // Cria o estoque
       const estoque = await EstoqueModel.create({ produto_id, quantidade, localizacao, data_entrada, data_saida });
-      res.status(201).json({ mensagem: "Estoque criado com sucesso!", Estoque });
+      res.status(201).json({ mensagem: "Estoque criado com sucesso!", estoque });
     } catch (error) {
       res.status(500).json({ mensagem: "Erro interno do servidor.", erro: error.message });
     }
@@ -55,7 +55,7 @@ class Estoque {
       const { id } = req.params;
       const { quantidade, localizacao, data_saida } = req.body;
       const resultado = await EstoqueModel.update(
-        { bio, site_pessoal, data_nascimento },
+        { quantidade, localizacao, data_saida },
         { where: { id } }
       );
       if (!resultado === 0) {
@@ -80,16 +80,20 @@ class Estoque {
       res.status(500).json({ mensagem: "Erro interno do servidor.", erro: error.message });
     }
   }
-
-  // Contar total de perfis
-  static async totalPerfis(req, res) {
+  // Deleta todos os produtos
+  static async deletarTodos(requisicao, resposta) {
     try {
-      const total = await EstoqueModel.count();
-      res.status(200).json({ total });
+      await ProdutoModel.destroy({truncate: true});
+      resposta
+        .status(200)
+        .json({ mensagem: "Todos os produtos foram deletados!" });
     } catch (error) {
-      res.status(500).json({ mensagem: "Erro interno do servidor.", erro: error.message });
+      resposta.status(500).json({
+        mensagem: "Erro interno do servidor. Por favor tente mais tarde!",
+        erro: error.message,
+      });
     }
   }
 }
 
-export default Estoque;
+export default EstoqueController;
