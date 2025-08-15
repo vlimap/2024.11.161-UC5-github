@@ -66,14 +66,10 @@ const EstoqueModel = sequelize.define(
             isDate: {
                 msg: "A data de saída deve ser uma data válida!"
             },
-            isAfter: {
-                args: new Date().toISOString(),
-                msg: "A data de saída não pode ser anterior à data atual!"
-            },
-            isMaiorQueDataEntrada(value){
-                if (parseInt(value) % 2 !== 0) {
-                  throw new Error('Only even values are allowed!');
-              }
+            isMaiorQueDataEntrada(value) {
+                if (value && this.data_entrada && new Date(value) < new Date(this.data_entrada)) {
+                    throw new Error('A data de saída não pode ser anterior à data de entrada!');
+                }
             }
         },
     }

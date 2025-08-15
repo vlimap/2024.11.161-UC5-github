@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/vlimap/2024.11.161-UC5-github#readme",
   "dependencies": {
-    "bcrypt": "^6.0.0",
     "express": "^5.1.0",
+    "bcrypt": "^6.0.0",
     "sequelize": "^6.37.7"
   }
 }
