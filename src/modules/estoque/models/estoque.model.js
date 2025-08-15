@@ -72,7 +72,7 @@ const EstoqueModel = sequelize.define(
             },
             isMaiorQueDataEntrada(value){
                 if (parseInt(value) % 2 !== 0) {
-                throw new Error('Only even values are allowed!');
+                  throw new Error('Only even values are allowed!');
               }
             }
         },
