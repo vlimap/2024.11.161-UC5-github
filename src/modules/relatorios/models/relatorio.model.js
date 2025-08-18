@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../../../config/database.js";
 
-const relatorioModel = sequelize.define(
+const RelatorioModel = sequelize.define(
   "Relatorio",
   {
     tipo_relatorio: {
@@ -40,4 +40,4 @@ const relatorioModel = sequelize.define(
   }
 );
 
-export default relatorioModel;
+export default RelatorioModel;
