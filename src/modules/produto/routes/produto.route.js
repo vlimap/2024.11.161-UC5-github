@@ -1,24 +1,22 @@
-import express from "express";
-import ProdutoController from "../controllers/produto.controller.js";
+import { Router } from "express";
+import ProdutosController from '../controllers/controller.js';
 
-const router = express.Router();
 
-// Listar todos os produtos/serviços (com filtro opcional ?tipo=produto ou ?tipo=serviço)
-router.get("/produtos", ProdutoController.listarTodos);
+const router = Router();
 
-// Buscar por ID
-router.get("/produtos/:id", ProdutoController.listarPorId);
+// Rota criar produto
+router.post("/cadastrar", ProdutosController.cadastrar);
 
-// Cadastrar produto/serviço
-router.post("/produto/cadastrar", ProdutoController.cadastrar);
+// Rota listar todos produtos
+router.get("/", ProdutosController.listarTodos);
 
-// Atualizar produto/serviço
-router.patch("/produto/atualizar/:id", ProdutoController.atualizar);
+// Rota listar produto por ID
+router.get("/listar/:id", ProdutosController.listarPorId);
 
-// Deletar por ID
-router.delete("/produto/deletar/:id", ProdutoController.deletarPorId);
+// Rota atualizar produto por ID
+router.put("/atualizar/:id", ProdutosController.atualizar);
 
-// Deletar todos
-router.delete("/produtos", ProdutoController.deletarTodos);
+// Rota deletar produto por ID
+router.delete("/deletar/:id", ProdutosController.deletarPorId);
 
 export default router;
