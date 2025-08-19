@@ -1,5 +1,4 @@
 
-
 # Melhorias Focadas por Domínio - Sistema de Barbearia
 
 Este documento apresenta as melhorias que cada responsável deve implementar, focando nos tópicos já estudados em aula:
@@ -27,15 +26,12 @@ Este documento apresenta as melhorias que cada responsável deve implementar, fo
 
 ---
 
-
-
 ## 📅 Domínio: Agenda
 - Model: Validações para data, hora, status e campos obrigatórios. Validar conflitos de horário e impedir agendamentos duplicados (mesmo cliente, mesmo horário). Validar dias úteis/finais de semana.
 - Controller: Validar conflitos de horário antes de criar agendamento. Impedir alteração de agendamentos já realizados. Buscar por data e colaborador.
 - Rotas: Prefixo `/agenda`, arquivo `agenda.route.js`. Rotas RESTful e busca por filtros (data, colaborador, status).
 
 ---
-
 
 ## 👤 Domínio: Cliente
 - Model: Validar nome, telefone, email (único) e (opcional) CPF. Soft delete (`paranoid: true`).
@@ -44,7 +40,6 @@ Este documento apresenta as melhorias que cada responsável deve implementar, fo
 
 ---
 
-
 ## 👤 Domínio: Colaborador
 - Model: Validar nome, especialidade, telefone, email (único), data de admissão, status. Corrigir nome da tabela para "colaborador".
 - Controller: Validar senha forte, atualizar status, busca por especialidade, impedir inativação com agendamentos.
@@ -52,151 +47,12 @@ Este documento apresenta as melhorias que cada responsável deve implementar, fo
 
 ---
 
-
 ## 📦 Domínio: Estoque
 - Model: Validar quantidade, localização, datas, motivo de saída. Relacionamento com Produto.
 - Controller: Validar produto existente, baixa automática no estoque, alertas de estoque baixo, movimentação de estoque.
 - Rotas: Prefixo `/estoque`, arquivo `estoque.route.js`. Rotas RESTful e relatórios de movimentação.
 
 ---
-
-## 📅 Módulo: AGENDA
-
-
-### ✅ Pontos Positivos
-- Controller implementa todos os métodos CRUD básicos
-- Model já possui validações de data, hora e status
-- Uso de Sequelize e estrutura MVC correta
-
-### 🔧 Melhorias Necessárias
-
-#### 1. Model (`agenda.model.js`)
-- Corrigir importação do sequelize: usar `import sequelize from '../../../config/database.js'` (remover as chaves)
-- Melhorar validação de horário: a validação `isBetween` não cobre horários que atravessam a meia-noite (ex: 22:00 até 03:00)
-- Adicionar validação para impedir agendamentos duplicados (mesmo cliente, mesmo horário)
-- Implementar validação customizada para dias úteis/finais de semana
-
-#### 2. Controller (`agenda.controller.js`)
-- Implementar validação de conflitos de horário antes de criar agendamento
-- Adicionar método para buscar agendamentos por data específica e por colaborador
-- Adicionar validação para impedir alteração de agendamentos já realizados
-
-#### 3. Rotas (`routes.js`)
-- Padronizar nomenclatura das rotas (usar `/agenda/` como prefixo)
-- Implementar middleware de validação de dados
-- Adicionar rotas para busca por filtros específicos (por data, colaborador, status)
-
----
-
-## 👥 Módulo: CLIENTE
-
-### ✅ Pontos Positivos
-- CRUD completo implementado no controller
-- Model já possui validações para nome, telefone e email
-- Uso correto do Sequelize e estrutura MVC
-
-### 🔧 Melhorias Necessárias
-
-#### 1. Model (`cliente.model.js`)
-- Corrigir typo: `validade` → `validate` no campo nome
-- Melhorar validação de telefone para aceitar formatos nacionais (ex: (99) 99999-9999)
-- Adicionar validação de CPF (opcional)
-- Implementar soft delete (`paranoid: true`)
-
-#### 2. Controller (`cliente.controller.js`)
-- Corrigir retorno dos métodos: evitar múltiplos objetos no `res.json`
-- Implementar validação de dados de entrada (nome, email, telefone obrigatórios)
-- Adicionar método para buscar cliente por email/telefone
-- Implementar contagem total de clientes
-
-#### 3. Rotas (`cliente.routes.js`)
-- Padronizar nomenclatura das rotas (usar `/clientes/` como prefixo)
-- Implementar middleware de validação
-- Adicionar rota para busca por múltiplos critérios
-
----
-
-## 👨‍💼 Módulo: COLABORADORES
-
-### ✅ Pontos Positivos
-- Implementação de hash de senha
-- Estrutura de controller bem definida
-
-### 🔧 Melhorias Necessárias
-
-#### **1. Correções no Model (`colaborador.models.js`)**
-- **CRÍTICO**: Adicionar imports necessários:
-  ```javascript
-  import { DataTypes } from "sequelize";
-  import sequelize from "../../../../config/database.js";
-  ```
-- **CRÍTICO**: Completar campos não implementados:
-  ```javascript
-  especialidade: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    validate: {
-      len: [2, 100],
-      notEmpty: true
-    }
-  },
-  status: {
-    type: DataTypes.ENUM('ativo', 'inativo', 'ferias'),
-    allowNull: false,
-    defaultValue: 'ativo'
-  }
-  ```
-- Corrigir validações do telefone e data_admissao
-- Corrigir nome da tabela para "colaboradores"
-
-#### **2. Melhorias no Controller (`colaborador.controllers.js`)**
-- **CRÍTICO**: Corrigir importação do model
-- Implementar validação de senha forte
-- Adicionar método para atualizar apenas status
-- Implementar busca por especialidade
-- Adicionar verificação de agendamentos antes de inativar colaborador
-
-#### **3. Correções nas Rotas (`routes.js`)**
-- **CRÍTICO**: Corrigir importação do controller
-- Corrigir método `totalUsuarios` para `totalColaboradores`
-- Padronizar nomenclatura das rotas
-
----
-
-## 📦 Módulo: ESTOQUE
-
-### ✅ Pontos Positivos
-- Boas validações no model
-- Estrutura de datas bem implementada
-
-### 🔧 Melhorias Necessárias
-
-#### **1. Correções no Model (`estoque.model.js`)**
-- Corrigir validação customizada `isMaiorQueDataEntrada`:
-  ```javascript
-  isAfterEntrada(value) {
-    if (value && this.data_entrada && new Date(value) <= new Date(this.data_entrada)) {
-      throw new Error('Data de saída deve ser posterior à data de entrada!');
-    }
-  }
-  ```
-- Implementar relacionamento com o modelo Produto
-- Adicionar campo `motivo_saida` (venda, perda, transferência)
-
-#### **2. Melhorias no Controller (`estoque.controller.js`)**
-- **CRÍTICO**: Corrigir referência `ProdutoModel` no método `deletarTodos`
-- Implementar validação de produto existente antes de criar estoque
-- Adicionar método para baixa automática no estoque (quando há venda)
-- Implementar alertas de estoque baixo
-- Adicionar método para movimentação de estoque
-
-#### **3. Melhorias nas Rotas (`routes.js`)**
-- Padronizar nomenclatura (usar `/estoque/` como prefixo)
-- Implementar rotas para relatórios de movimentação
-- Adicionar rota para produtos com estoque baixo
-
----
-
 
 ## 💰 Domínio: Pagamento
 - Model: Validar campos, referência à venda, campos de desconto, juros, parcelas.
@@ -240,7 +96,6 @@ Este documento apresenta as melhorias que cada responsável deve implementar, fo
 
 ---
 
-
 ## 🛍️ Domínio: Produto
 - Model: Validar nome, marca, preço (>0), quantidade em estoque (>=0), descrição, imagem_url, categoria, ativo.
 - Controller: Busca por nome/marca, validação de estoque antes de venda, promoções/descontos.
@@ -264,7 +119,6 @@ Este documento apresenta as melhorias que cada responsável deve implementar, fo
 - Implementar sistema de promoções/descontos
 
 ---
-
 
 ## 📊 Domínio: Relatório
 - Model: Tipos de relatório, campo parâmetros flexível, campo usuario_id.
@@ -292,11 +146,9 @@ Este documento apresenta as melhorias que cada responsável deve implementar, fo
 #### **2. Melhorias no Controller (`relatorio.controller.js`)**
 - Implementar lógica real de geração de relatórios
 - Adicionar métodos específicos para cada tipo de relatório
-- Implementar cache de relatórios
-- Adicionar exportação para PDF/Excel
+- Adicionar exportação para PDF/Excel(** desafio **)
 
 ---
-
 
 ## 👤 Domínio: Usuário
 - Model: Validar campos, relacionamento com outras entidades, importação correta do sequelize.
@@ -326,7 +178,6 @@ Este documento apresenta as melhorias que cada responsável deve implementar, fo
 - Adicionar middleware de autorização
 
 ---
-
 
 ## 💼 Domínio: Venda
 - Model: Corrigir campo client_id para cliente_id, relacionamentos, validação de valor total, campo desconto.
@@ -367,8 +218,8 @@ Este documento apresenta as melhorias que cada responsável deve implementar, fo
 - Garantir que, ao deletar registros relacionados (ex: cliente, colaborador, produto), o sistema trate corretamente as dependências (ex: impedir exclusão se houver agendamentos/vendas, ou usar soft delete).
 - Validar no controller se os IDs de entidades relacionadas existem antes de criar/atualizar registros (ex: ao criar um agendamento, verificar se cliente e colaborador existem).
 - Garantir que os nomes dos campos de chave estrangeira estejam corretos e padronizados (ex: cliente_id, colaborador_id).
-- Adicionar exemplos de uso dos relacionamentos nos controllers (ex: incluir dados do cliente ao buscar um agendamento).
 
 ---
 
 **Observação:** Este documento deve ser usado como guia de desenvolvimento. Cada aluno deve implementar as melhorias do seu módulo seguindo as convenções estabelecidas no projeto e testando adequadamente antes de fazer commit.
+
