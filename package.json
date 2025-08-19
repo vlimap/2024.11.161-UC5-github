@@ -1,26 +1,21 @@
 {
-  "name": "2024.11.161-uc5-github",
+  "name": "sistema-barbearia",
   "version": "1.0.0",
-  "description": "O sistema está organizado em 10 módulos/domínios principais, cada um representando um aspecto do negócio de barbearia. Utilizaremos o padrão MVC (Model-View-Controller) para garantir separação de responsabilidades e escalabilidade.",
+  "description": "Sistema de Barbearia - Node.js, Express, Sequelize, PostgreSQL",
   "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vlimap/2024.11.161-UC5-github.git"
+  "dependencies": {
+    "express": "^4.18.2",
+    "dotenv": "^16.4.5",
+    "sequelize": "^6.37.1",
+    "pg": "^8.11.3",
+    "bcryptjs": "^2.4.3"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/vlimap/2024.11.161-UC5-github/issues"
-  },
-
-    "sequelize": "^6.37.7"
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   }
 }
