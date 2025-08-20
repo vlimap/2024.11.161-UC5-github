@@ -34,6 +34,37 @@ class ClienteController {
         }
     }
 
+    static async ListarPorEmail(req, res) {
+        try {
+            const { email } = req.params;
+            const cliente = await ClienteModel.findOne({ where: { email } });
+            if(!cliente) {
+                return res.status(404).json({ msg: "Nenhum cliente encontrado!" });
+            }
+
+            return res.status(200).json(cliente);
+
+        } catch (error) {
+            return res.status(400).json( { msg: "Os parâmetros da requisição estão incorretos ou ausentes.",  erro: error.message });
+        }
+    }
+
+    static async ListarPorTelefone(req, res) {
+        try {
+            const { telefone } = req.params;
+            const cliente = await ClienteModel.findOne({ where: { telefone } });
+
+            if(!cliente) {
+                return res.status(404).json({ msg: "Nenhum cliente encontrado!" });
+            }
+
+            return res.status(200).json(cliente);
+
+        } catch (error) {
+            return res.status(400).json( { msg: "Os parâmetros da requisição estão incorretos ou ausentes.",  erro: error.message });
+        }
+    }
+
    static async ListarPorId(req, res) {
         try {
             const { id } = req.params;
@@ -85,6 +116,20 @@ class ClienteController {
                 return res.status(404).json({ msg: "Cliente não encontrado." });
             }
             return res.status(200).json({ msg: "Operação concluída com sucesso!" });
+
+        } catch (error) {
+            return res.status(400).json({ msg: "Os parâmetros da requisição estão incorretos ou ausentes.", erro: error.message });
+        }
+    }
+
+    static async TotalClientes(req, res) {
+        try {
+            const total = await ClienteModel.count();
+            if(total === 0) {
+                return res.status(404).json({ msg: "Nenhum cliente encontrado!" });
+            }
+
+            return res.status(200).json(total);
 
         } catch (error) {
             return res.status(400).json({ msg: "Os parâmetros da requisição estão incorretos ou ausentes.", erro: error.message });

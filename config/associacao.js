@@ -1,4 +1,4 @@
-import ClienteModel from "../src/modules/clientes/models/cliente.model.js";
+import ClienteModel from "../src/modules/cliente/models/cliente.model.js";
 import AgendaModel from "../src/modules/agenda/models/agenda.model.js";
 import ColaboradorModel from "../src/modules/colaboradores/models/colaborador.models.js";
 import EstoqueModel from "../src/modules/estoque/models/estoque.model.js";

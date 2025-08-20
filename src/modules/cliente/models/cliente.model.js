@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../../../config/database.js';
+import sequelize from '../../../../config/database.js';
 
 const ClienteModel = sequelize.define(
-    'clientes', {
+    'Cliente', {
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -70,7 +70,7 @@ const ClienteModel = sequelize.define(
     },
 
     {
-        tableName: 'clientes',
+        tableName: 'Cliente',
         createdAt: 'criado_em',
         updatedAt: 'atualizado_em',
         deletedAt: 'deletado_em'
