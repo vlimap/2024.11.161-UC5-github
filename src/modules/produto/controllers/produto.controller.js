@@ -1,135 +1,111 @@
-import ProdutoModel from "../models/produto.model.js";
+import ProdutosModel from '../models/produto.model.js';
 
-/**
- * Controlador de Produtos/Serviços da Barbearia
- */
-class ProdutoController {
-  // Cadastrar novo produto ou serviço
+class ProdutosController {
   static async cadastrar(req, res) {
     try {
-      const { nome, marca, preco, quantidade_estoque, descricao, tipo } = req.body;
+      const { nome, marca, preco, quantidade_estoque, descricao } = req.body;
 
-      if (!nome || !preco || !descricao || !tipo) {
+      if (!nome || !preco || !descricao) {
         return res.status(400).json({
-          mensagem: "Campos obrigatórios: nome, preco, descricao e tipo.",
+          mensagem: "Campos obrigatórios: nome, preco e descricao.",
         });
       }
 
-      const novoProduto = await ProdutoModel.create({
+      const novoProduto = await ProdutosModel.create({
         nome,
         marca,
         preco,
         quantidade_estoque,
         descricao,
-        tipo,
       });
 
       res.status(201).json({
-        mensagem: "Produto/serviço cadastrado com sucesso!",
+        mensagem: "Produto cadastrado com sucesso!",
         produto: novoProduto,
       });
     } catch (error) {
       res.status(500).json({
-        mensagem: "Erro ao cadastrar produto/serviço.",
+        mensagem: "Erro ao cadastrar produto.",
         erro: error.message,
       });
     }
   }
 
-  // Listar todos com filtro por tipo
   static async listarTodos(req, res) {
     try {
-      const { tipo } = req.query;
-      const where = tipo ? { tipo } : {};
-      const produtos = await ProdutoModel.findAll({ where });
+      const produtos = await ProdutosModel.findAll();
 
       if (produtos.length === 0) {
-        return res.status(200).json({ mensagem: "Nenhum item encontrado." });
+        return res.status(200).json({ mensagem: "Nenhum produto encontrado." });
       }
 
       res.status(200).json(produtos);
     } catch (error) {
       res.status(500).json({
-        mensagem: "Erro ao listar produtos/serviços.",
+        mensagem: "Erro ao listar produtos.",
         erro: error.message,
       });
     }
   }
 
-  // Listar por ID
   static async listarPorId(req, res) {
     try {
       const id = req.params.id;
-      const produto = await ProdutoModel.findByPk(id);
+      const produto = await ProdutosModel.findByPk(id);
 
       if (!produto) {
-        return res.status(404).json({ mensagem: "Produto/serviço não encontrado." });
+        return res.status(404).json({ mensagem: "Produto não encontrado." });
       }
 
       res.status(200).json(produto);
     } catch (error) {
       res.status(500).json({
-        mensagem: "Erro ao buscar produto/serviço.",
+        mensagem: "Erro ao buscar produto.",
         erro: error.message,
       });
     }
   }
 
-  // Atualizar produto/serviço
   static async atualizar(req, res) {
     try {
-      const { nome, marca, preco, quantidade_estoque, descricao, tipo } = req.body;
+      const { nome, marca, preco, quantidade_estoque, descricao } = req.body;
       const id = req.params.id;
 
-      const atualizado = await ProdutoModel.update(
-        { nome, marca, preco, quantidade_estoque, descricao, tipo },
+      const atualizado = await ProdutosModel.update(
+        { nome, marca, preco, quantidade_estoque, descricao },
         { where: { id } }
       );
 
       if (atualizado[0] === 0) {
-        return res.status(404).json({ mensagem: "Produto/serviço não encontrado para atualização." });
+        return res.status(404).json({ mensagem: "Produto não encontrado para atualização." });
       }
 
-      res.status(200).json({ mensagem: "Atualizado com sucesso!" });
+      res.status(200).json({ mensagem: "Produto atualizado com sucesso!" });
     } catch (error) {
       res.status(500).json({
-        mensagem: "Erro ao atualizar produto/serviço.",
+        mensagem: "Erro ao atualizar produto.",
         erro: error.message,
       });
     }
   }
 
-  // Deletar por ID
   static async deletarPorId(req, res) {
     try {
       const id = req.params.id;
-      const deletado = await ProdutoModel.destroy({ where: { id } });
+      const deletado = await ProdutosModel.destroy({ where: { id } });
 
       if (!deletado) {
-        return res.status(404).json({ mensagem: "Produto/serviço não encontrado para exclusão." });
+        return res.status(404).json({ mensagem: "Produto não encontrado para exclusão." });
       }
 
-      res.status(200).json({ mensagem: "Excluído com sucesso!" });
+      res.status(200).json({ mensagem: "Produto excluído com sucesso!" });
     } catch (error) {
       res.status(500).json({
-        mensagem: "Erro ao excluir produto/serviço.",
-        erro: error.message,
-      });
-    }
-  }
-
-  // Deletar todos
-  static async deletarTodos(req, res) {
-    try {
-      await ProdutoModel.destroy({ truncate: true });
-      res.status(200).json({ mensagem: "Todos os produtos/serviços foram excluídos!" });
-    } catch (error) {
-      res.status(500).json({
-        mensagem: "Erro ao excluir todos os itens.",
+        mensagem: "Erro ao excluir produto.",
         erro: error.message,
       });
     }
   }
 }
 
-export default ProdutoController;
+export default ProdutosController;
