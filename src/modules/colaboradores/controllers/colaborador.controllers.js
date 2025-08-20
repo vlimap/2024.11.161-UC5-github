@@ -21,16 +21,21 @@ class ColaboradorController {
 
   // Listar todos os colaboradores
   static async listarTodos(req, res) {
-    try {
-      const colaboradores = await ColaboradorModel.findAll();
-      if (!colaboradores || colaboradores.length === 0) {
-        return res.status(200).json({ mensagem: "Banco de dados vazio!" });
-      }
-      res.status(200).json(colaboradores);
-    } catch (error) {
-      res.status(500).json({ mensagem: "Erro interno do servidor.", erro: error.message });
+  try {
+    const { especialidade } = req.query;
+
+    const where = {};
+    if (especialidade) {
+      where.especialidade = especialidade;
     }
+    if (!colaboradores || colaboradores.length === 0) {
+      return res.status(200).json({ mensagem: "Nenhum colaborador encontrado!" });
+    }
+    res.status(200).json(colaboradores);
+  } catch (error) {
+    res.status(500).json({ mensagem: "Erro interno do servidor.", erro: error.message });
   }
+}
 
   // Listar colaborador por ID
   static async listarPorId(req, res) {

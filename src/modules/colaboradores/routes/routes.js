@@ -12,8 +12,8 @@ router.delete("/colaborador", ColaboradorControler.deletarTodos); // DELETE /col
 router.get("/colaboradores/total", ColaboradorControler.totalUsuarios); // GET /colaboradores/total
 
 // Listar, atualizar e deletar usuário por ID
-router.get("/colaboradores/:id", ColaboradorControler.listarPorId); // GET /colaboradores/:id
-router.patch("/colaboradores/:id", ColaboradorControler.atualizar); // PATCH /colaboradores/:id
-router.delete("/colaboradores/:id", ColaboradorControler.deletarPorId); // DELETE /colaboradores/:id
+router.get("/colaborador/:id", ColaboradorControler.listarPorId); // GET /colaboradores/:id
+router.patch("/colaborador/:id", ColaboradorControler.atualizar); // PATCH /colaboradores/:id
+router.delete("/colaborador/:id", ColaboradorControler.deletarPorId); // DELETE /colaboradores/:id
 
 export default router;
