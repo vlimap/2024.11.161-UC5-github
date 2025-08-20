@@ -13,7 +13,7 @@ app.use(express.json());
 // import clientesRoutes from './src/modules/clientes/routes.js';
 
 // import servicosRoutes from './src/modules/servicos/routes.js';
-// import produtosRoutes from './src/modules/produtos/routes.js';
+// import produtosRoutes from './src/modules/produto/routes/produto.route.js';
 // import vendasRoutes from './src/modules/vendas/routes.js';
 // import pagamentosRoutes from './src/modules/pagamentos/routes.js';
 
