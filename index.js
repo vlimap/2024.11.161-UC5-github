@@ -13,7 +13,7 @@ app.use(express.json());
 // import clientesRoutes from './src/modules/clientes/routes.js';
 
 // import servicosRoutes from './src/modules/servicos/routes.js';
-// import produtosRoutes from './src/modules/produto/routes/produto.route.js';
+
 // import vendasRoutes from './src/modules/vendas/routes.js';
 // import pagamentosRoutes from './src/modules/pagamentos/routes.js';
 
@@ -23,7 +23,7 @@ app.use(express.json());
 // app.use('/clientes', clientesRoutes);
 // app.use('/colaboradores', colaboradoresRoutes);
 // app.use('/servicos', servicosRoutes);
-// app.use('/produtos', produtosRoutes);
+app.use('/produtos', produtosRoutes);
 // app.use('/vendas', vendasRoutes);
 // app.use('/pagamentos', pagamentosRoutes);
 

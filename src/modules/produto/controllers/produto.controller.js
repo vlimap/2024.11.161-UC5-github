@@ -108,4 +108,4 @@ class ProdutosController {
   }
 }
 
-export default ProdutosController;
+

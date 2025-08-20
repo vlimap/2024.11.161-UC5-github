@@ -54,4 +54,4 @@ const ProdutosModel = sequelize.define(
   }
 );
 
-export default ProdutosModel;
+
