@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize'); // Importa os tipos de dados do Sequelize
-const sequelize = require('../../../database/connection'); // Importa a instância do Sequelize
+const sequelize = require('../../../config/database.js'); // Importa a instância do Sequelize
 
 const Pagamento = sequelize.define('Pagamento', { // Define o modelo Pagamento
     
@@ -42,8 +42,9 @@ const Pagamento = sequelize.define('Pagamento', { // Define o modelo Pagamento
     }
 }, {
     // Opções do modelo
-    tableName: 'pagamentos',
-    timestamps: false,
+     tableName: 'clientes',
+     createdAt: 'criado_em',
+     updatedAt: 'atualizado_em'
    
 });
 
