@@ -1,4 +1,6 @@
 import ProdutosModel from '../models/produto.model.js';
+import { Op } from "sequelize";
+
 
 class ProdutosController {
   static async cadastrar(req, res) {
@@ -102,6 +104,35 @@ class ProdutosController {
     } catch (error) {
       res.status(500).json({
         mensagem: "Erro ao excluir produto.",
+        erro: error.message,
+      });
+    }
+  }
+
+  static async buscarPorNomeOuMarca(req, res) {
+    try {
+      const { nome, marca } = req.query;
+
+      const whereClause = {};
+
+      if (nome) {
+        whereClause.nome = { [Op.like]: `%${nome}%` };
+      }
+
+      if (marca) {
+        whereClause.marca = { [Op.like]: `%${marca}%` };
+      }
+
+      const resultados = await ProdutosModel.findAll({ where: whereClause });
+
+      if (resultados.length === 0) {
+        return res.status(200).json({ mensagem: "Nenhum produto encontrado com os filtros fornecidos." });
+      }
+
+      res.status(200).json(resultados);
+    } catch (error) {
+      res.status(500).json({
+        mensagem: "Erro ao buscar produtos.",
         erro: error.message,
       });
     }

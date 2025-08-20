@@ -19,4 +19,8 @@ router.put("/atualizar/:id", ProdutosController.atualizar);
 // Rota deletar produto por ID
 router.delete("/deletar/:id", ProdutosController.deletarPorId);
 
+// Rota buscar produto por nome ou marca
+router.get("/buscar", ProdutosController.buscarPorNomeOuMarca);
+
+
 export default router;
