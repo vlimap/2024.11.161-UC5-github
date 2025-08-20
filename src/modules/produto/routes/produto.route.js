@@ -1,6 +1,5 @@
 import { Router } from "express";
-import ProdutosController from '../controllers/produto.controller.js';;
-
+import ProdutosController from '../controllers/produto.controller.js';
 
 const router = Router();
 
@@ -22,5 +21,7 @@ router.delete("/deletar/:id", ProdutosController.deletarPorId);
 // Rota buscar produto por nome ou marca
 router.get("/buscar", ProdutosController.buscarPorNomeOuMarca);
 
+// Movimentar estoque
+router.patch("/estoque/:id", ProdutosController.movimentarEstoque);
 
 export default router;

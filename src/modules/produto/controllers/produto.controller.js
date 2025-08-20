@@ -1,15 +1,22 @@
 import ProdutosModel from '../models/produto.model.js';
 import { Op } from "sequelize";
 
-
 class ProdutosController {
   static async cadastrar(req, res) {
     try {
-      const { nome, marca, preco, quantidade_estoque, descricao } = req.body;
+      const { nome, marca, preco, quantidade_estoque, descricao, categoria } = req.body;
 
-      if (!nome || !preco || !descricao) {
+      // Todos os campos obrigatórios
+      if (!nome || !marca || !preco || quantidade_estoque === undefined || !descricao || !categoria) {
         return res.status(400).json({
-          mensagem: "Campos obrigatórios: nome, preco e descricao.",
+          mensagem: "Campos obrigatórios: nome, marca, preco, quantidade_estoque, descricao e categoria.",
+        });
+      }
+
+      // Validação para quantidade_estoque
+      if (quantidade_estoque < 0) {
+        return res.status(400).json({
+          mensagem: "Quantidade em estoque não pode ser negativa.",
         });
       }
 
@@ -19,6 +26,7 @@ class ProdutosController {
         preco,
         quantidade_estoque,
         descricao,
+        categoria,
       });
 
       res.status(201).json({
@@ -70,11 +78,24 @@ class ProdutosController {
 
   static async atualizar(req, res) {
     try {
-      const { nome, marca, preco, quantidade_estoque, descricao } = req.body;
+      const { nome, marca, preco, quantidade_estoque, descricao, categoria } = req.body;
       const id = req.params.id;
 
+      // Verificar se todos os campos estão presentes
+      if (!nome || !marca || !preco || quantidade_estoque === undefined || !descricao || !categoria) {
+        return res.status(400).json({
+          mensagem: "Campos obrigatórios para atualização: nome, marca, preco, quantidade_estoque, descricao e categoria.",
+        });
+      }
+
+      if (quantidade_estoque < 0) {
+        return res.status(400).json({
+          mensagem: "Quantidade em estoque não pode ser negativa.",
+        });
+      }
+
       const atualizado = await ProdutosModel.update(
-        { nome, marca, preco, quantidade_estoque, descricao },
+        { nome, marca, preco, quantidade_estoque, descricao, categoria },
         { where: { id } }
       );
 
@@ -140,4 +161,3 @@ class ProdutosController {
 }
 
 export default ProdutosController;
-
