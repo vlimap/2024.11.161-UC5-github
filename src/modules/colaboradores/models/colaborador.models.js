@@ -1,3 +1,6 @@
+import { DataTypes } from "sequelize";
+import { sequelize } from '../../../config/database.js'
+
 const ColaboradorModel = sequelize.define(
   "Colaborador",
   {
@@ -46,25 +49,26 @@ const ColaboradorModel = sequelize.define(
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: "O campo senha deve ser preenchido!"
+          msg: "O telefone deve ser preenchido!"
         },
-        len: {
-          args: [8],
-          msg: "A senha deve ter no mínimo 8 caracteres!"
+        is: {
+          args: /^\(?\d{2}\)?[\s-]?(\d{4,5}-?\d{4})$/,
+          msg: "O telefone deve ser válido! Ex: (11) 91234-5678"
         }
       }
     },
     data_admissao: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATEONLY,
       allowNull: false,
       validate: {
-        isUrl: {
+        isDate: {
           msg: "Insira uma data de admissão válida!"
         }
       }
     },
     status: {
-
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
     }
   },
   {
@@ -73,3 +77,5 @@ const ColaboradorModel = sequelize.define(
     updatedAt: "atualizado_em"
   }
 );
+
+export default ColaboradorModel
