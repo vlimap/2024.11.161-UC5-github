@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../../../config/database.js";
+import EstoqueModel from "./estoque.model.js"; // ✅ Importa o model de estoque
 
 const ProdutosModel = sequelize.define(
   "produtos",
@@ -19,7 +20,7 @@ const ProdutosModel = sequelize.define(
     },
     marca: {
       type: DataTypes.STRING,
-      allowNull: false,  // mudou para obrigatório
+      allowNull: false,
       validate: {
         len: [2, 100],
         notEmpty: true,
@@ -35,7 +36,7 @@ const ProdutosModel = sequelize.define(
     },
     quantidade_estoque: {
       type: DataTypes.INTEGER,
-      allowNull: false,  // mudou para obrigatório
+      allowNull: false,
       validate: {
         min: 0,
       },
@@ -50,7 +51,7 @@ const ProdutosModel = sequelize.define(
     },
     imagem_url: {
       type: DataTypes.STRING,
-      allowNull: true,  // opcional
+      allowNull: true,
       validate: {
         isUrl: true,
       },
@@ -74,5 +75,16 @@ const ProdutosModel = sequelize.define(
     updatedAt: "atualizado_em",
   }
 );
+
+// 🔗 Relacionamento: Produto tem várias movimentações de estoque
+ProdutosModel.hasMany(EstoqueModel, {
+  foreignKey: "produto_id",
+  as: "movimentacoes",
+});
+
+EstoqueModel.belongsTo(ProdutosModel, {
+  foreignKey: "produto_id",
+  as: "produto",
+});
 
 export default ProdutosModel;
