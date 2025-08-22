@@ -1,8 +1,9 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../../../../config/database.js";
+import sequelize from "../../../config/database.js"; // da pasta produto/models
+import EstoqueModel from "../../estoque/models/estoque.model.js"; // ✅ Importa o model de estoque
 
 const ProdutosModel = sequelize.define(
-  "produtos",
+  "produto",
   {
     id: {
       type: DataTypes.UUID,
@@ -19,14 +20,14 @@ const ProdutosModel = sequelize.define(
     },
     marca: {
       type: DataTypes.STRING,
-      allowNull: false,  // mudou para obrigatório
+      allowNull: false,
       validate: {
         len: [2, 100],
         notEmpty: true,
       },
     },
     preco: {
-      type: DataTypes.DECIMAL(6, 2),
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
       validate: {
         isDecimal: true,
@@ -35,7 +36,7 @@ const ProdutosModel = sequelize.define(
     },
     quantidade_estoque: {
       type: DataTypes.INTEGER,
-      allowNull: false,  // mudou para obrigatório
+      allowNull: false,
       validate: {
         min: 0,
       },
@@ -48,13 +49,6 @@ const ProdutosModel = sequelize.define(
         notEmpty: true,
       },
     },
-    imagem_url: {
-      type: DataTypes.STRING,
-      allowNull: true,  // opcional
-      validate: {
-        isUrl: true,
-      },
-    },
     categoria: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -62,17 +56,35 @@ const ProdutosModel = sequelize.define(
         notEmpty: true,
       },
     },
+    imagem_url: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        isUrl: true,
+      },
+    },
     ativo: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
       defaultValue: true,
+      allowNull: false,
     },
   },
   {
-    tableName: "produtos",
+    tableName: "produto",
     createdAt: "criado_em",
     updatedAt: "atualizado_em",
   }
 );
+
+// Relacionamento: Produto tem várias movimentações de estoque
+ProdutosModel.hasMany(EstoqueModel, {
+  foreignKey: "produto_id",
+  as: "movimentacoes",
+});
+
+EstoqueModel.belongsTo(ProdutosModel, {
+  foreignKey: "produto_id",
+  as: "produto",
+});
 
 export default ProdutosModel;
